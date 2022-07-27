@@ -1,0 +1,13 @@
+{
+   "mongodb": {
+      "server": "10.1.10.77",
+      "port": 49152,
+      "name": "portal"
+   },
+   "nodejs": {
+      "port": "53280"
+   },
+   "bcrypt": {
+      "salt": 12
+   }
+}

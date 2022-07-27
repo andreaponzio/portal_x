@@ -1,0 +1,42 @@
+{
+  "name": "portal",
+  "version": "1.0.0",
+  "description": "Il portale dell'utente",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andreaponzio/portal.git"
+  },
+  "author": "Andrea Ponzio",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andreaponzio/portal/issues"
+  },
+  "homepage": "https://github.com/andreaponzio/portal#readme",
+  "dependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/bcrypt": "^5.0.0",
+    "@types/connect-flash": "^0.0.37",
+    "@types/express": "^4.17.13",
+    "@types/express-handlebars": "^6.0.0",
+    "@types/express-session": "^1.17.5",
+    "@types/handlebars-helpers": "^0.5.3",
+    "@types/method-override": "^0.0.32",
+    "@types/mongodb": "^4.0.7",
+    "@types/node": "^18.0.3",
+    "@types/winston": "^2.4.4",
+    "axios": "^0.27.2",
+    "bcrypt": "^5.0.1",
+    "connect-flash": "^0.1.1",
+    "express": "^4.18.1",
+    "express-handlebars": "^6.0.6",
+    "express-session": "^1.17.3",
+    "handlebars-helpers": "^0.10.0",
+    "method-override": "^3.0.0",
+    "mongodb": "^4.8.0",
+    "winston": "^3.8.1"
+  }
+}
