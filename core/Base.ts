@@ -50,6 +50,9 @@ export class Base {
    get document(): Object {
       return this._document;
    };
+   get _id(): mongoDB.ObjectId {
+      return this._document["_id"];
+   };
    get created_at(): Date {
       return this._document["created_at"];
    };

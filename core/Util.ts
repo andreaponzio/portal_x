@@ -1,8 +1,7 @@
 /**
  * Librerie
  */
-import * as winston from "winston";
-
+import * as mongoDB from "mongodb";
 import {Base} from "./Base";
 
 /**
@@ -10,15 +9,4 @@ import {Base} from "./Base";
  */
 export class Util extends Base {
 
-   /**
-    * Permette di creare una collazione.
-    * @param logger
-    * @param name
-    */
-   public static newCollection(logger: winston.Logger, name: string) {
-      this.database.createCollection(name).catch(error => {
-         logger.error(error.message);
-         throw error;
-      });
-   }
 }

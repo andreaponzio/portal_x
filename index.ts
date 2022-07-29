@@ -38,19 +38,6 @@ app.use(session({
 }));
 
 /**
- * Inizializza logger
- */
-const logger: winston.Logger = winston.createLogger({
-   format: winston.format.combine(
-      winston.format.timestamp(),
-      winston.format.json()
-   ),
-   transports: [
-      new winston.transports.File({filename: "historical.log"}),
-   ],
-});
-
-/**
  * Middleware
  */
 
@@ -65,7 +52,8 @@ app.use("/", async (request, response) => {
  * Avvia server dipendente dalla riuscita della connessione
  * alla base dati
  */
-import {User} from "./core/User";
+import {Application} from "./core/Application";
+import {Profile} from "./core/Profile";
 import * as mongoDB from "mongodb";
 
 Base.connection().then(() => {
@@ -73,19 +61,29 @@ Base.connection().then(() => {
 
    (async() => {
 
-      let u = new User();
+      let a = new Application();
+      let aa = new Application();
+      let p = new Profile();
       try {
-         /*u.new();
-         u.email = "andrea.ponzio@gmail.com";
-         u.name = "andrea";
-         u.password = u.security = "123456";
-         u.check();
-         await u.save();*/
-         //console.log(u.password);
-         await u.loadByEmail("andrea.ponzio@gmail.com");
-         u.locked = true;
-         await u.save();
-         console.log(u.document);
+         await a.load(new mongoDB.ObjectId("62e39797144b499c666a9e03"));
+         await aa.load(new mongoDB.ObjectId("62e3981f8bc766bc0a87f139"));
+
+         /*a.new();
+         a.name = "app3";
+         a.description = "applicazione 3";
+         await a.save();*/
+
+         /*p.new();
+         p.name = "profilo";
+         p.description = "profilo di prova";
+         p.addApplication(a);
+         p.addApplication(aa);
+         await p.save();*/
+
+         await p.load(new mongoDB.ObjectId("62e3987955ef8460c8810da0"));
+         console.log(await p.getAvailableApplications(true));
+
+         //console.log(p.document);
       }
       catch(ex) {
          console.log(ex);
@@ -97,5 +95,6 @@ Base.connection().then(() => {
 
 
 }).catch(error => {
+   console.log(error);
 }).finally(() => {
 })

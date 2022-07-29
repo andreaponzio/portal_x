@@ -18,9 +18,6 @@ export class User extends Base {
    /**
     * Getter
     */
-   get _id(): mongoDB.ObjectId {
-      return this._document["_id"];
-   };
    get email(): string {
       return this._document["email"];
    };
@@ -58,7 +55,7 @@ export class User extends Base {
    };
 
    /**
-    * Costruttore della classe User.
+    * Costruttore della classe.
     */
    constructor() {
       super();
@@ -66,14 +63,14 @@ export class User extends Base {
    };
 
    /**
-    * Inizializza il documento per un nuovo Utente.
+    * Inizializza il documento per un nuovo utente.
     */
    public new(): void {
       super.new("user");
    };
 
    /**
-    * Effettua controllo proprietà obbligatorie per l'oggetto User.
+    * Effettua controllo proprietà obbligatorie per l'oggetto utente.
     */
    public check(): void {
       super.check();
