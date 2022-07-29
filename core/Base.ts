@@ -86,6 +86,10 @@ export class Base {
       return Base.database.collection(collectionName);
    };
 
+   public async createCollection(collectionName: string): Promise<mongoDB.Collection> {
+      return await Base.database.createCollection(collectionName);
+   };
+
    /**
     * Richiama metodo protetto convertendo il nome della collezione nel rispettivo riferimento.
     * @param collectionName

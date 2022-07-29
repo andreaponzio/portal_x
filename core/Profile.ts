@@ -105,6 +105,13 @@ export class Profile extends Base {
    };
 
    /**
+    * Disassegna tutte le applicazioni dal profilo.
+    */
+   public cleanApplication(): void {
+      this._document["applications"] = [];
+   };
+
+   /**
     * Restituisce le applicazioni non ancora assegnate al profilo oppure tutte
     * con dettaglio se assegnate o meno.
     * @param status
@@ -113,8 +120,8 @@ export class Profile extends Base {
       let result: object[] = [];
 
       // Legge tutte le anagrafiche delle applicazioni (mantiene solo alcune proprietà):
-      let available: object[] = await this.select(
-         "admin",
+      let available: object[] = await this._select(
+         this._collection,
          {"type": "application"},
          {projection: {"_id": 1, "name": 1, "description": 1}}
       );

@@ -4,9 +4,6 @@
 import express from "express";
 import session from "express-session";
 import {engine} from "express-handlebars";
-import * as winston from "winston";
-
-import {Base} from "./core/Base";
 
 /**
  * File dati
@@ -44,7 +41,14 @@ app.use(session({
 /**
  * Routing
  */
-app.use("/", async (request, response) => {
+import {UserFolder} from "./core/UserFolder";
+import {User} from "./core/User";
+import {Application} from "./core/Application";
+import {ObjectId} from "mongodb";
+import {Base} from "./core/Base";
+import {Profile} from "./core/Profile";
+
+app.use("/", async(request, response) => {
 
 });
 
@@ -52,49 +56,31 @@ app.use("/", async (request, response) => {
  * Avvia server dipendente dalla riuscita della connessione
  * alla base dati
  */
-import {Application} from "./core/Application";
-import {Profile} from "./core/Profile";
-import * as mongoDB from "mongodb";
+//app.listen(nodejs.port);
 
-Base.connection().then(() => {
-   //app.listen(nodejs.port);
+//
+//
+//
+//
+(async() => {
+   await Base.connection();
 
-   (async() => {
+   let u = new User();
+   u.new();
+   u.name = "andrea";
+   u.email = "aa@aa.com";
 
-      let a = new Application();
-      let aa = new Application();
-      let p = new Profile();
-      try {
-         await a.load(new mongoDB.ObjectId("62e39797144b499c666a9e03"));
-         await aa.load(new mongoDB.ObjectId("62e3981f8bc766bc0a87f139"));
+   let p = new Profile();
+   await p.load(new ObjectId("62e3d42732d1a52292de519f"));
 
-         /*a.new();
-         a.name = "app3";
-         a.description = "applicazione 3";
-         await a.save();*/
+   /*let a = new Application();
+   let b = new Application();
+   await a.load(new ObjectId("62e3cc9de6dd893cb8c2cd1e"));
+   await b.load(new ObjectId("62e3cc9de6dd893cb8c2cd1a"));*/
 
-         /*p.new();
-         p.name = "profilo";
-         p.description = "profilo di prova";
-         p.addApplication(a);
-         p.addApplication(aa);
-         await p.save();*/
-
-         await p.load(new mongoDB.ObjectId("62e3987955ef8460c8810da0"));
-         console.log(await p.getAvailableApplications(true));
-
-         //console.log(p.document);
-      }
-      catch(ex) {
-         console.log(ex);
-      }
-
-   })().catch(error => {
-      console.log(error);
-   });
-
-
-}).catch(error => {
+   let f = new UserFolder();
+   await f.loadByUser(u);
+   await f.getX(p);
+})().catch(error => {
    console.log(error);
-}).finally(() => {
-})
+});
