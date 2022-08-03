@@ -2,11 +2,13 @@
  * Librerie
  */
 import * as mongoDB from "mongodb";
+import CryptoJS from "crypto-js";
 
 /**
  * File dati
  */
 import {mongodb as db_config} from "../public/config.json";
+import {nodejs} from "../public/config.json";
 
 /**
  * Classe Base ha lo scopo di gestire tutte le comunicazioni con
@@ -43,6 +45,22 @@ export class Base {
          await Base.client.close();
       Base.client = undefined;
    }
+
+   /**
+    * Permette di proteggere un testo (la chiave si trova nel file di configurazione).
+    * @param message
+    */
+   public static encrypt(message: string): string {
+      return CryptoJS.AES.encrypt(message, nodejs.cipher).toString();
+   };
+
+   /**
+    * Permette di sproteggere un test (la chiave si trova nel file di configurazione).
+    * @param ciphertext
+    */
+   public static decrypt(ciphertext: string) {
+      return CryptoJS.AES.decrypt(ciphertext, nodejs.cipher).toString(CryptoJS.enc.Utf8);
+   };
 
    /**
     * Getter.
@@ -86,6 +104,10 @@ export class Base {
       return Base.database.collection(collectionName);
    };
 
+   /**
+    * Crea una collezione nalla base dati.
+    * @param collectionName
+    */
    public async createCollection(collectionName: string): Promise<mongoDB.Collection> {
       return await Base.database.createCollection(collectionName);
    };
@@ -225,5 +247,20 @@ export class Base {
          await this._collection.insertOne(this._document);
       else
          await this._collection.replaceOne({"_id": this._document["_id"]}, this._document);
+   };
+
+   /**
+    * Conta i documenti trovati con il filtro specificato.
+    * @param filter
+    * @param collectionName
+    */
+   public async count(filter: object, collectionName: string = ""): Promise<number> {
+      let collection: mongoDB.Collection;
+
+      if(this._collection === undefined && collectionName.length !== 0) {
+         collection = this.getCollection(collectionName);
+         return await collection.countDocuments(filter);
+      } else
+         return await this._collection.countDocuments(filter);
    };
 }

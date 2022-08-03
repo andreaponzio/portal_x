@@ -67,7 +67,7 @@ export class Application extends Base {
    };
 
    /**
-    * Effettua controllo proprietà obbligatorie per l'oggetto applicazione.
+    * Effettua controllo proprietà obbligatorie.
     */
    public check(): void {
       super.check();
@@ -92,5 +92,13 @@ export class Application extends Base {
       if(this._document["position"] === undefined)
          this._document["position"] = 0;
       await super.save();
+   };
+
+   /**
+    * Verifica se l'applicazione è usata in un profilo. Utile per gestire la
+    * cancellazione fisica senza creare incoerenze nella base dati.
+    */
+   public async isUsed(): Promise<number> {
+      return await this.count({"type": "application", "_id": this._id});
    };
  }

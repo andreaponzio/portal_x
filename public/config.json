@@ -1,11 +1,13 @@
 {
    "mongodb": {
-      "server": "192.168.1.11",
+      "server": "192.168.1.10",
       "port": 49152,
       "name": "portal"
    },
    "nodejs": {
-      "port": "53280"
+      "port": "53280",
+      "mode": 0,
+      "cipher": "Portal@1"
    },
    "bcrypt": {
       "salt": 12

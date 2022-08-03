@@ -11,7 +11,7 @@ import {Base} from "./Base";
 import {bcrypt} from "../public/config.json";
 
 /**
- * Classe di gestione utenza registrate nel Portale.
+ * Classe di gestione delle utenze registrate nel Portale.
  */
 export class User extends Base {
 
@@ -70,7 +70,7 @@ export class User extends Base {
    };
 
    /**
-    * Effettua controllo proprietà obbligatorie per l'oggetto utente.
+    * Effettua controllo proprietà obbligatorie.
     */
    public check(): void {
       super.check();

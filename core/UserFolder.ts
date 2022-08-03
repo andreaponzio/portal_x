@@ -8,7 +8,6 @@ import {Application} from "./Application";
 import {Profile} from "./Profile";
 import {application} from "express";
 
-
 /**
  * Classe di gestione dei folder utente per l'organizzazione delle applicazioni.
  */
@@ -89,11 +88,11 @@ export class UserFolder extends Base {
 
    /**
     * Costruisce una lista di folder con le relative applicazioni assegnate in coerenza
-    * con il profilo utente. Tutte le applicazioni non assegnate ad un folder sono inserite
+    * con il profilo utente. Tutte le applicazioni non assegnate a un folder sono inserite
     * nel folder generico.
     * @param profile
     */
-   public async getX(profile: Profile): Promise<object[]> {
+   public async getFolders(profile: Profile): Promise<object[]> {
       let folders: object[] = [];
       let hub_folders: object[] = [];
       let folder: object = {};
@@ -139,7 +138,7 @@ export class UserFolder extends Base {
 
       // Popola folder generico:
       hub_folder = {
-         "name": "generic",
+         "name": "$generic",
          "description": "",
          "applications": []
       };

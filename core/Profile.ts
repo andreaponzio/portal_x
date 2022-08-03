@@ -61,7 +61,7 @@ export class Profile extends Base {
    };
 
    /**
-    * Effettua controllo proprietà obbligatorie per l'oggetto profilo.
+    * Effettua controllo proprietà obbligatorie.
     */
    public check(): void {
       super.check();
@@ -150,5 +150,13 @@ export class Profile extends Base {
       }
 
       return result;
+   };
+
+   /**
+    * Verifica se il profilo è usato in un'anagrafica utente. Utile per gestire la
+    * cancellazione fisica senza creare incoerenze nella base dati.
+    */
+   public async isUsed(): Promise<number> {
+      return await this.count({"type": "user", "_id": this._id});
    };
  }
