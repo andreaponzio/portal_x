@@ -4,6 +4,13 @@
 import express from "express";
 import session from "express-session";
 import {engine} from "express-handlebars";
+import methodOverride from "method-override";
+const flash = require("connect-flash");
+
+/**
+ * Definizioni di routing.
+ */
+import {router as routeSignup} from "./routers/routeSignup";
 
 /**
  * File dati
@@ -33,37 +40,35 @@ app.use(session({
 /**
  * Middleware
  */
+app.use(methodOverride((request: express.Request, response: express.Response) => {
+   if(request.body && typeof request.body === "object" && "_method" in request.body) {
+      let method = request.body._method;
+      delete request.body._method;
+      return method;
+   }
+}));
+app.use(flash());
 
 /**
- * Routing
+ * Routing. In base alla modalità presente nel file di configurazione,
+ * il Portale si comporta come:
+ * 0 = funzionamento regolare;
+ * 1 = Portale in manutenzione;
  */
-import {UserFolder} from "./core/UserFolder";
-import {User} from "./core/User";
-import {Application} from "./core/Application";
-import {ObjectId} from "mongodb";
-import {Base} from "./core/Base";
-import {Profile} from "./core/Profile";
-import {Initialize} from "./core/Initialize";
-import {SapSystem} from "./core/SapSystem";
-import {MySap} from "./core/MySap";
+switch(nodejs.mode) {
+   case 0:
+      app.use("/signup", routeSignup);
+      break;
 
-app.use("/", async(request, response) => {
-
-});
+   case 1:
+      app.use("/", (request:express.Request, response:express.Response) => {
+         response.send("Il Portale dell'utente è in manutenzione.");
+      });
+      break;
+}
 
 /**
  * Avvia server dipendente dalla riuscita della connessione
  * alla base dati
  */
-//app.listen(nodejs.port);
-
-//
-//
-//
-//
-(async() => {
-   await Base.connection();
-
-})().catch(error => {
-   console.log(error);
-});
+app.listen(nodejs.port);
