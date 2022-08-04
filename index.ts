@@ -5,6 +5,8 @@ import express from "express";
 import session from "express-session";
 import {engine} from "express-handlebars";
 import methodOverride from "method-override";
+
+const helpers = require("handlebars-helpers")();
 const flash = require("connect-flash");
 
 /**
@@ -25,7 +27,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.engine('.hbs', engine({
    extname: ".hbs",
-   helpers: {}
+   helpers
 }));
 app.set("view engine", ".hbs");
 app.use(session({
@@ -48,6 +50,12 @@ app.use(methodOverride((request: express.Request, response: express.Response) =>
    }
 }));
 app.use(flash());
+
+/*app.all("*", async(request, response, next) => {
+   // Rende disponibile la sessione all'interno della pagina per handlebars:
+   response.locals.session = request.session;
+   next();
+});*/
 
 /**
  * Routing. In base alla modalità presente nel file di configurazione,

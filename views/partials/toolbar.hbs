@@ -14,42 +14,45 @@
          <ul class="navbar-nav me-auto">
          </ul>
 
-         <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle bg-dark" style="border: none" type="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false">
-               Dropdown button
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end">
-               <li>
-                  <a href="#" class="dropdown-item">
-                     <i class="bi bi-gear"></i>
-                     Profilo utente
-                  </a>
-               </li>
-               <li>
-                  <a href="#" class="dropdown-item">
-                     <i class="bi bi-key"></i>
-                     Modificare password d'accesso
-                  </a>
-               </li>
-               <li>
-                  <a href="#" class="dropdown-item">
-                     <i class="bi bi-shield-lock"></i>
-                     Modificare frase di sicurezza
-                  </a>
-               </li>
-               <li>
-                  <hr class="dropdown-divider">
-               </li>
-               <li>
-                  <a href="#" class="dropdown-item">
-                     <i class="bi bi-box-arrow-right"></i>
-                     Uscita
-                  </a>
-               </li>
-            </ul>
-         </div>
+         <!-- User menu -->
+         {{#if session.userdata}}
+            <div class="dropdown">
+               <button class="btn btn-secondary dropdown-toggle bg-dark" style="border: none" type="button"
+                       data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                  Dropdown button
+               </button>
+               <ul class="dropdown-menu dropdown-menu-end">
+                  <li>
+                     <a href="#" class="dropdown-item">
+                        <i class="bi bi-gear"></i>
+                        Profilo utente
+                     </a>
+                  </li>
+                  <li>
+                     <a href="#" class="dropdown-item">
+                        <i class="bi bi-key"></i>
+                        Modificare password d'accesso
+                     </a>
+                  </li>
+                  <li>
+                     <a href="#" class="dropdown-item">
+                        <i class="bi bi-shield-lock"></i>
+                        Modificare frase di sicurezza
+                     </a>
+                  </li>
+                  <li>
+                     <hr class="dropdown-divider">
+                  </li>
+                  <li>
+                     <a href="#" class="dropdown-item">
+                        <i class="bi bi-box-arrow-right"></i>
+                        Uscita
+                     </a>
+                  </li>
+               </ul>
+            </div>
+         {{/if}}
       </div>
    </div>
 </nav>

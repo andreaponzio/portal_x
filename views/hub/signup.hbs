@@ -1,0 +1,38 @@
+<div class="container mt-3" style="max-width: 576px">
+   <div class="text-center">
+      <h3>Passo {{step}} di 4</h3>
+   </div>
+
+   {{#compare step '==' 1}}
+      <p style="font-size: 12px">
+         L'indirizzo e-mail sarà utilizzato per l'autenticazione al Portale, mentre il nome utente
+         sarà usato dal Portale per identificarti nelle pagine oppure nelle comunicazioni con altri utenti.
+      </p>
+   {{/compare}}
+
+   <!-- Step 1: e-mail and user name -->
+   <form>
+      <div style="padding: 10px; border: 1px solid #eaecef; border-radius: 5px; background-color: #eff2f6;">
+         {{#compare step '==' 1}}
+            <div class="form-floating">
+               <input type="email" class="form-control" id="e-mail" placeholder="name@example.com">
+               <label for="e-mail">Indirizzo e-mail</label>
+            </div>
+            <div class="form-floating mt-1">
+               <input type="text" class="form-control" id="username" placeholder="Paolo Rossi">
+               <label for="username">Nome utente</label>
+            </div>
+         {{/compare}}
+      </div>
+
+      <!-- Command buttons -->
+      <div class="text-center mt-2">
+         <button type="button" class="btn btn-secondary">
+            <i class="bi bi-x-octagon"></i>
+         </button>
+         <button type="button" class="btn btn-success">
+            <i class="bi bi-arrow-right-circle"></i>
+         </button>
+      </div>
+   </form>
+</div>
