@@ -5,13 +5,11 @@ import express from "express";
 import session from "express-session";
 import {engine} from "express-handlebars";
 import methodOverride from "method-override";
-
-const helpers = require("handlebars-helpers")();
-const flash = require("connect-flash");
-
+import {Base} from "./core/Base";
 /**
  * Definizioni di routing.
  */
+import {router as routeHub} from "./routers/routeHub";
 import {router as routeSignup} from "./routers/routeSignup";
 
 /**
@@ -19,11 +17,14 @@ import {router as routeSignup} from "./routers/routeSignup";
  */
 import {nodejs} from "./public/config.json";
 
+const helpers = require("handlebars-helpers")();
+const flash = require("connect-flash");
+
 /**
  * Inizializza applicazione
  */
 const app: express.Application = express();
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 app.engine('.hbs', engine({
    extname: ".hbs",
@@ -38,6 +39,7 @@ app.use(session({
    resave: false,
    saveUninitialized: false
 }));
+app.use("/js", express.static(__dirname + "/views"));
 
 /**
  * Middleware
@@ -51,11 +53,23 @@ app.use(methodOverride((request: express.Request, response: express.Response) =>
 }));
 app.use(flash());
 
-/*app.all("*", async(request, response, next) => {
-   // Rende disponibile la sessione all'interno della pagina per handlebars:
-   response.locals.session = request.session;
-   next();
-});*/
+/**
+ * Middleware per verifica della connessione alla base dati.
+ */
+app.all("*", async(request: express.Request, response: express.Response, next: express.NextFunction) => {
+   let ping: object = {};
+
+   try {
+      await Base.connection();
+      ping = await Base.ping();
+      if(ping["ok"] !== 1)
+         response.send("Connessione alla base dati impossibile.<br>Contattare l'amministratore.");
+      next();
+   }
+   catch(ex) {
+      response.send("Connessione alla base dati impossibile.<br>Contattare l'amministratore.");
+   }
+});
 
 /**
  * Routing. In base alla modalità presente nel file di configurazione,
@@ -65,11 +79,12 @@ app.use(flash());
  */
 switch(nodejs.mode) {
    case 0:
+      app.use("/", routeHub);
       app.use("/signup", routeSignup);
       break;
 
    case 1:
-      app.use("/", (request:express.Request, response:express.Response) => {
+      app.use("/", (request: express.Request, response: express.Response) => {
          response.send("Il Portale dell'utente è in manutenzione.");
       });
       break;

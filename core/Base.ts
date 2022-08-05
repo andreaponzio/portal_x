@@ -47,6 +47,13 @@ export class Base {
    }
 
    /**
+    * Effettua ping sulla base dati per verificare che sia attivo.
+    */
+   public static async ping(): Promise<object> {
+      return await Base.database.command({ping: 1});
+   };
+
+   /**
     * Permette di proteggere un testo (la chiave si trova nel file di configurazione).
     * @param message
     */

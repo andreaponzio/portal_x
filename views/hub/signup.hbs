@@ -1,38 +1,129 @@
 <div class="container mt-3" style="max-width: 576px">
    <div class="text-center">
-      <h3>Passo {{step}} di 4</h3>
+      <h3>Passo {{session.signup.step}} di 4</h3>
    </div>
 
-   {{#compare step '==' 1}}
-      <p style="font-size: 12px">
+   <!-- Alerts -->
+   {{> alerts}}
+
+   {{#compare session.signup.step '==' 1}}
+      <p style="font-size: 13px">
          L'indirizzo e-mail sarà utilizzato per l'autenticazione al Portale, mentre il nome utente
          sarà usato dal Portale per identificarti nelle pagine oppure nelle comunicazioni con altri utenti.
       </p>
    {{/compare}}
+   {{#compare session.signup.step '==' 2}}
+      <p style="font-size: 13px">
+         La password così come l'indirizzo e-mail sono usate per l'autenticazione al Portale.
+         <br>
+         !! Ricorda che la password non è recuperabile !!
+      </p>
+   {{/compare}}
+   {{#compare session.signup.step '==' 3}}
+      <p style="font-size: 13px">
+         La frase di sicurezza è richiesta in tutte quelle operazione dove è necessario un livello
+         di sicurezza maggiore.
+         <br>
+         !! Ricorda che la frase di sicurezza non è recuperabile !!
+      </p>
+   {{/compare}}
 
    <!-- Step 1: e-mail and user name -->
-   <form>
-      <div style="padding: 10px; border: 1px solid #eaecef; border-radius: 5px; background-color: #eff2f6;">
-         {{#compare step '==' 1}}
-            <div class="form-floating">
-               <input type="email" class="form-control" id="e-mail" placeholder="name@example.com">
-               <label for="e-mail">Indirizzo e-mail</label>
+   <form id="submit" method="post" action="/signup">
+      <input type="text" id="_step" name="_step" value="{{session.signup.step}}" hidden>
+      <input type="text" id="_command" name="_command" hidden>
+   <div style="padding: 10px; border: 1px solid #eaecef; border-radius: 5px; background-color: #eff2f6;">
+      {{#compare session.signup.step '==' 1}}
+         <div class="form-floating">
+            <input type="email" class="form-control" id="email" name="email" value="{{session.signup.email}}"
+                   placeholder=" " maxlength="240"
+                   required>
+            <label for="e-mail">Indirizzo e-mail</label>
+         </div>
+         <div class="form-floating mt-1">
+            <input type="text" class="form-control" id="username" name="username" value="{{session.signup.username}}"
+                   placeholder=" " maxlength="40"
+                   required>
+            <label for="username">Nome utente</label>
+         </div>
+      {{/compare}}
+
+      <!-- Step 2: password -->
+      {{#compare session.signup.step '==' 2}}
+         <div class="form-floating">
+            <input type="password" class="form-control" id="password" name="password"
+                   value="{{session.signup.password}}" maxlength="20" placeholder=" ">
+            <label for="e-mail">Password di accesso</label>
+         </div>
+         <div class="form-floating mt-1">
+            <input type="password" class="form-control" id="repassword" name="repassword"
+                   value="{{session.signup.repassword}}" maxlength="20"
+                   placeholder=" ">
+            <label for="e-mail">Ripeti password di accesso</label>
+         </div>
+      {{/compare}}
+
+      <!-- Step 3: security phrase -->
+      {{#compare session.signup.step '==' 3}}
+         <div class="form-floating">
+            <input type="password" class="form-control" id="security" name="security"
+                   value="{{session.signup.security}}" maxlength="40" placeholder=" ">
+            <label for="e-mail">Frase di sicurezza</label>
+         </div>
+         <div class="form-floating mt-1">
+            <input type="password" class="form-control" id="resecurity" name="resecurity"
+                   value="{{session.signup.resecurity}}" maxlength="40"
+                   placeholder=" ">
+            <label for="e-mail">Ripeti frase di sicurezza</label>
+         </div>
+      {{/compare}}
+
+      <!-- Step 4: check all data -->
+      {{#compare session.signup.step '==' 4}}
+         <div class="row">
+            <div class="col">
+               Indirizzo e-mail:
             </div>
-            <div class="form-floating mt-1">
-               <input type="text" class="form-control" id="username" placeholder="Paolo Rossi">
-               <label for="username">Nome utente</label>
+            <div class="col">
+               <em>{{session.signup.email}}</em>
             </div>
-         {{/compare}}
+         </div>
+         <div class="row">
+            <div class="col">
+               Nome utente:
+            </div>
+            <div class="col">
+               <em>{{session.signup.username}}</em>
+            </div>
+         </div>
       </div>
+      {{/compare}}
 
       <!-- Command buttons -->
       <div class="text-center mt-2">
-         <button type="button" class="btn btn-secondary">
+         <button type="button" class="btn btn-secondary" id="cancel">
             <i class="bi bi-x-octagon"></i>
          </button>
-         <button type="button" class="btn btn-success">
-            <i class="bi bi-arrow-right-circle"></i>
-         </button>
+         {{#compare session.signup.step '>' '1'}}
+            <button type="button" class="btn btn-success" onclick="process('-');">
+               <i class="bi bi-arrow-left-circle"></i>
+            </button>
+         {{/compare}}
+         {{#compare session.signup.step '<' '4'}}
+            <button type="button" class="btn btn-success" onclick="process('+');">
+               <i class="bi bi-arrow-right-circle"></i>
+            </button>
+         {{else}}
+            <button type="button" class="btn btn-success" onclick="process('$');">
+               Procedi
+            </button>
+         {{/compare}}
       </div>
    </form>
 </div>
+
+<!-- Confirm operation cancellation -->
+{{> modal/confirm_operation_cancellation}}
+
+<!-- Scripts -->
+<script src="/js/hub/signup.js"></script>
