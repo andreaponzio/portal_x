@@ -69,7 +69,7 @@ router.post("/", async (request: express.Request, response: express.Response) =>
       // - lunghezza minima e massima;
       // - la ripetizione della password sia uguale alla prima;
       case 2:
-         if(request.body.password.length < 1) {
+         if(request.body.password.length < 8) {
             request.flash("alert-danger", "La password deve essere compresa tra 8 e 20 caratteri");
             error = true;
          } else if(request.body.password != request.body.repassword) {
@@ -84,7 +84,7 @@ router.post("/", async (request: express.Request, response: express.Response) =>
       // - lunghezza minima e massima;
       // - la ripetizione della frase sia uguale alla prima;
       case 3:
-         if(request.body.security.length < 1) {
+         if(request.body.security.length < 15) {
             request.flash("alert-danger", "La frase di sicurezza deve essere compresa tra 15 e 40 caratteri");
             error = true;
          } else if(request.body.security != request.body.resecurity) {
@@ -111,17 +111,21 @@ router.post("/", async (request: express.Request, response: express.Response) =>
          case "save":
             user = new User();
             user.new();
-            user.email = request.body.email;
-            user.name = request.body.username;
-            user.password = request.body.password;
-            user.security = request.body.security;
-            //await user.save();
-            console.log(user.document);
-
+            user.email = request.session["signup"].email;
+            user.name = request.session["signup"].username;
+            user.password = request.session["signup"].password;
+            user.security = request.session["signup"].security;
+            await user.save();
+            if(user._id === undefined)
+               request.flash("alert-danger", "La registrazione non è andata a buon fine");
+            else {
+               request.flash("alert-success", "La registrazione è andata a buon fine");
+               delete request.session["signup"];
+               response.redirect("/");
+            }
             break;
       }
       request.session["signup"]["step"] = step;
    }
    response.redirect("/signup");
-})
-;
+});
