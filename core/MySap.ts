@@ -3,7 +3,6 @@
  */
 import * as mongoDB from "mongodb";
 import {Base} from "./Base";
-import {User} from "./User";
 
 /**
  * Classe di gestione dei sistemi SAP associati a un utente.

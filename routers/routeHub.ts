@@ -20,6 +20,12 @@ router.get("/", async(request: express.Request, response: express.Response) => {
    // Pulisce dalla sessione le voci non più utili:
    delete request.session["signup"];
 
-   //
-   response.send("hub");
+   // Disegna pagina dell'HUB:
+   response.render("hub/hub", {
+      "session": request.session,
+      "title": "Il Portale dell'Utente",
+      "alert-success": request.flash("alert-success"),
+      "alert-warning": request.flash("alert-warning"),
+      "alert-danger": request.flash("alert-danger")
+   });
 });

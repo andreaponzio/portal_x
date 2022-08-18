@@ -13,7 +13,11 @@ function process(value) {
          break;
 
       case "$":
-         document.querySelector("#_command").value = "save";
+         document.querySelector("#_command").value = "reset";
+         break;
+
+      case "!":
+         document.querySelector("#_command").value = "suspend";
          break;
    }
    document.querySelector("#submit").submit();

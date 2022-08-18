@@ -1,12 +1,10 @@
 /**
  * Librerie
  */
-import * as mongoDB from "mongodb";
 import {Base} from "./Base";
 import {Application} from "./Application";
 import {Profile} from "./Profile";
 import {User} from "./User";
-import {raw} from "express";
 
 /**
  * File dati

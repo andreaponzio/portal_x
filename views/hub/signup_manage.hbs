@@ -1,0 +1,61 @@
+<div class="container mt-3" style="max-width: 576px">
+   <div class="text-center">
+      <h3>Passo {{session.signup.step}} di 2</h3>
+   </div>
+
+   <!-- Alerts -->
+   {{> alerts}}
+
+   <!-- Step 1: e-mail and security -->
+   <form id="submit" method="post" action="/signup_manage">
+      <input type="text" id="_step" name="_step" value="{{session.signup.step}}" hidden>
+      <input type="text" id="_command" name="_command" hidden>
+      <div style="padding: 10px; border: 1px solid #eaecef; border-radius: 5px; background-color: #eff2f6;">
+         {{#compare session.signup.step '==' 1}}
+            <div class="form-floating">
+               <input type="email" class="form-control" id="email" name="email" value="{{session.signup.email}}"
+                      placeholder=" " maxlength="240"
+                      required>
+               <label for="e-mail">Indirizzo e-mail</label>
+            </div>
+            <div class="form-floating mt-1">
+               <input type="password" class="form-control" id="security" name="security"
+                      placeholder=" " maxlength="40"
+                      required>
+               <label for="security">Frase di sicurezza</label>
+            </div>
+         {{/compare}}
+
+         <!-- Select operation-->
+         {{#compare session.signup.step '==' 2}}
+            <div class="d-grid gap-2 mt-1">
+               <button class="btn btn-primary" type="button" onclick="process('$');">Ripristina la password</button>
+               <button class="btn btn-primary" type="button" onclick="process('!');">Annulla la registrazione</button>
+            </div>
+         {{/compare}}
+
+         <!-- Command buttons -->
+         <div class="text-center mt-2">
+            <button type="button" class="btn btn-secondary" id="cancel">
+               <i class="bi bi-x-octagon"></i>
+            </button>
+            {{#compare session.signup.step '>' '1'}}
+               <button type="button" class="btn btn-success" onclick="process('-');">
+                  <i class="bi bi-arrow-left-circle"></i>
+               </button>
+            {{/compare}}
+            {{#compare session.signup.step '<' '2'}}
+               <button type="button" class="btn btn-success" onclick="process('+');">
+                  <i class="bi bi-arrow-right-circle"></i>
+               </button>
+            {{/compare}}
+         </div>
+      </div>
+   </form>
+</div>
+
+<!-- Confirm operation cancellation -->
+{{> modal/confirm_operation_cancellation}}
+
+<!-- Scripts -->
+<script src="/js/hub/signup_manage.js"></script>

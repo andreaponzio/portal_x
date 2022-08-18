@@ -6,7 +6,6 @@ import {Base} from "./Base";
 import {User} from "./User";
 import {Application} from "./Application";
 import {Profile} from "./Profile";
-import {application} from "express";
 
 /**
  * Classe di gestione dei folder utente per l'organizzazione delle applicazioni.

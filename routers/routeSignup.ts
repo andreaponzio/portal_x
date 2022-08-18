@@ -22,16 +22,15 @@ router.get("/", (request: express.Request, response: express.Response) => {
       "session": request.session,
       "title": "Registrazione utente",
       "alert-success": request.flash("alert-success"),
-      "alert-warning": request.flash("alert-warning"),
       "alert-danger": request.flash("alert-danger")
    });
 });
 
 /**
- * Gestisce la navigazione tra i vari step. Inoltre, gestire la registrazione
+ * Gestisce la navigazione tra i vari step. Inoltre, gestisce la registrazione
  * finale dell'utente nella base dati.
  */
-router.post("/", async (request: express.Request, response: express.Response) => {
+router.post("/", async(request: express.Request, response: express.Response) => {
    let user: User;
    let regex: RegExp = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
    let step: number;
@@ -40,7 +39,7 @@ router.post("/", async (request: express.Request, response: express.Response) =>
    // Trasforma lo step in numero:
    step = parseInt(request.body._step);
 
-   // In base allo step effettua i giusti controlli:
+   // In base allo step effettua i giusti controlli e operazioni:
    switch(step) {
 
       // Controllo validità email e nome utente:
@@ -48,7 +47,8 @@ router.post("/", async (request: express.Request, response: express.Response) =>
          if(request.body.email.length === 0 || !regex.test(request.body.email)) {
             request.flash("alert-danger", "Indirizzo e-mail non valido");
             error = true;
-         } else if(request.body.username.length === 0) {
+         }
+         else if(request.body.username.length === 0) {
             request.flash("alert-danger", "Inserire un nome utente");
             error = true;
          }
@@ -72,7 +72,8 @@ router.post("/", async (request: express.Request, response: express.Response) =>
          if(request.body.password.length < 8) {
             request.flash("alert-danger", "La password deve essere compresa tra 8 e 20 caratteri");
             error = true;
-         } else if(request.body.password != request.body.repassword) {
+         }
+         else if(request.body.password != request.body.repassword) {
             request.flash("alert-danger", "Le password non corrispondono");
             error = true;
          }
@@ -87,7 +88,8 @@ router.post("/", async (request: express.Request, response: express.Response) =>
          if(request.body.security.length < 15) {
             request.flash("alert-danger", "La frase di sicurezza deve essere compresa tra 15 e 40 caratteri");
             error = true;
-         } else if(request.body.security != request.body.resecurity) {
+         }
+         else if(request.body.security != request.body.resecurity) {
             request.flash("alert-danger", "Le frasi di sicurezza non corrispondono");
             error = true;
          }
@@ -120,12 +122,16 @@ router.post("/", async (request: express.Request, response: express.Response) =>
                request.flash("alert-danger", "La registrazione non è andata a buon fine");
             else {
                request.flash("alert-success", "La registrazione è andata a buon fine");
-               delete request.session["signup"];
-               response.redirect("/");
+               step = 9;
             }
             break;
       }
       request.session["signup"]["step"] = step;
    }
-   response.redirect("/signup");
+
+   // Se la registrazione è andata a buon fine, riporta sull'HUB:
+   if(step === 9)
+      response.redirect("/")
+   else
+      response.redirect("/signup");
 });

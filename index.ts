@@ -11,6 +11,7 @@ import {Base} from "./core/Base";
  */
 import {router as routeHub} from "./routers/routeHub";
 import {router as routeSignup} from "./routers/routeSignup";
+import {router as routeSignupManage} from "./routers/routeSignupManage";
 
 /**
  * File dati
@@ -81,6 +82,7 @@ switch(nodejs.mode) {
    case 0:
       app.use("/", routeHub);
       app.use("/signup", routeSignup);
+      app.use("/signup_manage", routeSignupManage);
       break;
 
    case 1:

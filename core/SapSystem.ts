@@ -1,7 +1,6 @@
 /**
  * Librerie
  */
-import * as mongoDB from "mongodb";
 import {Base} from "./Base";
 
 /**
