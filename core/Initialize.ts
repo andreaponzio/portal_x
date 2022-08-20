@@ -117,3 +117,13 @@ export class Initialize {
       await u_my.save();
    };
 }
+
+/*
+import {User} from "./core/User";
+(async() => {
+   await Base.connection();
+   await User.suspend("utente@utente.com");
+})().catch(error => {
+   console.log(error);
+});
+ */

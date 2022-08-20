@@ -16,6 +16,23 @@ import {bcrypt} from "../public/config.json";
 export class User extends Base {
 
    /**
+    * Permette di sospendere una registrazione utente.
+    * @param email
+    */
+   public static async suspend(email: string): Promise<void> {
+      await Base.database.collection("admin").updateOne(
+         {"email": email},
+         {
+            $set: {
+               "password": "",
+               "security": "",
+               "locked": true
+            }
+         }
+      );
+   };
+
+   /**
     * Getter
     */
    get email(): string {
