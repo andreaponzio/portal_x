@@ -31,8 +31,8 @@ router.get("/", (request: express.Request, response: express.Response) => {
  * finale dell'utente nella base dati.
  */
 router.post("/", async(request: express.Request, response: express.Response) => {
-   let user: User;
    let regex: RegExp = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+   let user: User;
    let step: number;
    let error: boolean = false;
 

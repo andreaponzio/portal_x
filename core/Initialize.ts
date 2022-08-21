@@ -119,10 +119,21 @@ export class Initialize {
 }
 
 /*
-import {User} from "./core/User";
+import {Chat} from "./core/Chat";
+import {ObjectId} from "mongodb";
 (async() => {
+
    await Base.connection();
-   await User.suspend("utente@utente.com");
+   let c: Chat = new Chat();
+   c.new("prova chat");
+   c.addUser(new ObjectId("62fe52c7f90e182fdcc65fd9"));
+   c.addUser(new ObjectId("62fe52c7f90e182fdcc65fda"));
+   c.send(new ObjectId("62fe52c7f90e182fdcc65fd9"), "prova");
+   let i: ObjectId = c.send(new ObjectId("62fe52c7f90e182fdcc65fda"), "prova1");
+   c.send(new ObjectId("62fe52c7f90e182fdcc65fd9"), "prova2");
+   c.recall(i);
+   await c.save();
+
 })().catch(error => {
    console.log(error);
 });

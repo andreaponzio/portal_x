@@ -7,8 +7,7 @@ import CryptoJS from "crypto-js";
 /**
  * File dati
  */
-import {mongodb as db_config} from "../public/config.json";
-import {nodejs} from "../public/config.json";
+import {mongodb as db_config, nodejs} from "../public/config.json";
 
 /**
  * Classe Base ha lo scopo di gestire tutte le comunicazioni con
@@ -17,11 +16,11 @@ import {nodejs} from "../public/config.json";
  */
 export class Base {
 
-   // Proprietà protette:
+   // Proprietà protette statiche:
    protected static client: mongoDB.MongoClient;
    protected static database: mongoDB.Db;
 
-   // Proprietà protette comuni:
+   // Proprietà protette comuni a tutti i figli:
    protected _collection: mongoDB.Collection;
    protected _document: Object;
 
@@ -91,6 +90,9 @@ export class Base {
    /**
     * Setter
     */
+   set document(value: Object) {
+      this._document = value;
+   };
    set locked(value) {
       this._document["locked"] = value;
    };
@@ -136,7 +138,7 @@ export class Base {
     * @param options
     * @protected
     */
-   protected async _select(collection:mongoDB.Collection, filter: object = {}, options: object = {}): Promise<object[]> {
+   protected async _select(collection: mongoDB.Collection, filter: object = {}, options: object = {}): Promise<object[]> {
       return await collection.find(filter, options).toArray();
    };
 
@@ -172,7 +174,8 @@ export class Base {
                "$lookup": d
             });
          });
-      } else
+      }
+      else
          pipeline = [{
             "$lookup": lookup
          }];
@@ -267,7 +270,8 @@ export class Base {
       if(this._collection === undefined && collectionName.length !== 0) {
          collection = this.getCollection(collectionName);
          return await collection.countDocuments(filter);
-      } else
+      }
+      else
          return await this._collection.countDocuments(filter);
    };
 }

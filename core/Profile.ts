@@ -38,11 +38,7 @@ export class Profile extends Base {
     * @private
     */
    private applicationAlreadyExists(application: Application): number {
-      let result: number = -1;
-
-      result = this._document["applications"].findIndex(d => d._id.equals(application._id));
-
-      return result;
+      return this._document["applications"].findIndex(d => d._id.equals(application._id));
    };
 
    /**

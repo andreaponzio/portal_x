@@ -1,0 +1,31 @@
+<div class="container mt-3" style="max-width: 576px">
+
+   <!-- Alerts -->
+   {{> alerts}}
+
+   <!-- Sender and message -->
+   <form id="submit" method="post" action="/question">
+      <div style="padding: 10px; border: 1px solid #eaecef; border-radius: 5px; background-color: #eff2f6;">
+         <div>
+            <label for="email" class="form-label">Indirizzo e-mail</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder=" " maxlength="240"
+                   value="{{session.question.email}}" required>
+         </div>
+         <div class="mt-1">
+            <label for="message" class="form-label">Messaggio per l'Amministratore</label>
+            <textarea class="form-control" id="message" name="message" placeholder=" " maxlength="1000" rows="5"
+                      required>{{session.question.message}}</textarea>
+         </div>
+      </div>
+
+      <!-- Command buttons -->
+      <div class="text-center mt-2">
+         <button type="button" class="btn btn-primary" id="send" onclick="submit();">
+            <i class="bi bi-send"></i>
+         </button>
+         <a href="/" type="button" class="btn btn-secondary" id="cancel">
+            <i class="bi bi-x-octagon"></i>
+         </a>
+      </div>
+   </form>
+</div>

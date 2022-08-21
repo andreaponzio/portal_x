@@ -19,6 +19,7 @@ export const router: express.Router = express.Router();
 router.get("/", async(request: express.Request, response: express.Response) => {
    // Pulisce dalla sessione le voci non più utili:
    delete request.session["signup"];
+   delete request.session["question"];
 
    // Disegna pagina dell'HUB:
    response.render("hub/hub", {

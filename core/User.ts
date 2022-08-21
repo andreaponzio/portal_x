@@ -1,7 +1,7 @@
 /**
  * Librerie
  */
-import * as mongoDB from "mongodb";
+import {ObjectId} from "mongodb";
 import * as crypto from "bcrypt";
 import {Base} from "./Base";
 
@@ -41,7 +41,7 @@ export class User extends Base {
    get name(): string {
       return this._document["name"];
    };
-   get profile(): mongoDB.ObjectId {
+   get profile(): ObjectId {
       return this._document["profile"];
    };
    get password(): string {
@@ -61,7 +61,7 @@ export class User extends Base {
    set name(value: string) {
       this._document["name"] = value;
    };
-   set profile(value: mongoDB.ObjectId) {
+   set profile(value: ObjectId) {
       this._document["profile"] = value;
    };
    set password(value: string) {
